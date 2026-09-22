@@ -16,6 +16,8 @@ repos:
     rev: v1.0.0
     hooks:
     - id: check-json5
+      # chezmoi modify_ files are Go templates named after their JSON target
+      exclude: (^|/)modify_
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.30.0
     hooks:

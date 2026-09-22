@@ -34,6 +34,7 @@
 ## File Formats
 
 - Chezmoi filename prefixes are semantic: `dot_`, `private_`, `exact_`, and `executable_` affect rendered targets. Preserve them when moving or adding managed files.
+- `homedir/modify_private_dot_claude.json` merges user-scope MCP servers into `~/.claude.json`; Claude Code rewrites the rest of that file, so the template sets only its `mcpServers` entries and passes every other key through. Keep API keys out of it: servers read them from the environment (`MORPH_API_KEY` for `morph-mcp`).
 - Several `.json` files are intentionally JSONC/JSON5-like. For example, `homedir/dot_config/opencode/opencode.json` contains comments and trailing commas. Do not normalize these to strict JSON unless explicitly asked.
 
 ## OpenCode And OpenClaw

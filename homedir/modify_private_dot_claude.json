@@ -1,0 +1,18 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- /*
+  Claude Code keeps user-scope MCP servers in ~/.claude.json, next to state it
+  rewrites on every run, so the file is merged here, not owned: only the
+  `mcpServers` entries below are set, and every other key passes through.
+  Secrets stay out: morph-mcp reads MORPH_API_KEY from the environment.
+*/ -}}
+{{- $cfg := dict -}}
+{{- if .chezmoi.stdin | trim -}}
+{{-   $cfg = .chezmoi.stdin | fromJson -}}
+{{- end -}}
+{{- $morph := dict
+      "type" "stdio"
+      "command" "npx"
+      "args" (list "-y" "@morphllm/morphmcp@0.8.213")
+      "env" (dict "DISABLED_TOOLS" "edit_file,github_codebase_search,reflex_list,reflex_predict,reflex_summary,reflex_traces") -}}
+{{- $cfg = setValueAtPath "mcpServers.morph-mcp" $morph $cfg -}}
+{{- $cfg | toPrettyJson "  " }}
